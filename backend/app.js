@@ -20,7 +20,7 @@ app.use(cookieParser());
 
 
 const allowedOrigins = [
-  "http://localhost:5173"
+  "https://chatapp-mern-3xqn.onrender.com"
 ];
 
 app.use(
