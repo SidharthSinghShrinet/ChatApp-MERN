@@ -18,8 +18,8 @@ const OtherUser = () => {
   let selectedUser = useSelector((state) => state.user.selectedUser);
   // console.log(selectedUser);
   let input = useSelector((state) => state.user.input);
-  let filteredInput = allOtherUsers.filter((search) => {
-    return search.fullname.toLowerCase().includes(input.toLowerCase().trim());
+  let filteredInput = (allOtherUsers || []).filter((search) => {
+    return search?.fullname?.toLowerCase().includes(input?.toLowerCase().trim()|| "");
   });
   // console.log(filteredInput);
   return (
@@ -29,7 +29,7 @@ const OtherUser = () => {
           {allOtherUsers.length === 0 ? (
             <h1>Loading...</h1>
           ) : (
-            allOtherUsers.map((user, idx) => (
+            (allOtherUsers || []).map((user, idx) => (
               <div
                 onClick={() => selectedUserHandler(user)}
                 className={`${
