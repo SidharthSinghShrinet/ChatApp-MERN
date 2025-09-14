@@ -1,6 +1,6 @@
 # 💬 Real-Time Chat Application (MERN + Socket.io)
 
-A real-time chat application built with the **MERN stack** (MongoDB, Express.js, React.js, Node.js) and **Socket.io** for instant messaging.  
+A real-time chat application built with the **MERN stack** (MongoDB, Express.js, React.js, Node.js) and **Socket.io** for instant messaging.
 This project demonstrates how to build a modern chat system with **authentication, live communication, and chat history**.
 
 ---
@@ -51,8 +51,8 @@ ChatApp/
 
 ### 1. Clone the repository
 **Terminal**
-git clone https://github.com/SidharthSinghShrinet/ChatApp-MERN.git
-cd ChatApp-MERN
+- git clone https://github.com/SidharthSinghShrinet/ChatApp-MERN.git
+- cd ChatApp-MERN
 
 ### 2.Install Dependencies
 # Backend
