@@ -55,30 +55,30 @@ ChatApp/
 - cd ChatApp-MERN
 
 ### 2.Install Dependencies
-# Backend
-cd backend
-npm install
+**Backend**
+- cd backend
+- npm install
 
-# Frontend
-cd ../frontend
-npm install
+**Frontend**
+- cd ../frontend
+- npm install
 
 ### 3. Setup environment variables
 
-# Create a .env file inside the backend folder:
+**Create a .env file inside the backend folder:**
 
-PORT=port_number
-MONGO_URI=your_mongodb_connection_string
-JWT_SECRET=your_jwt_secret
+- PORT=port_number
+- MONGO_URI=your_mongodb_connection_string
+- JWT_SECRET=your_jwt_secret
 
 ### 4. Run the application
-# Run backend
-cd backend
-npm run dev
+**Run backend**
+- cd backend
+- npm run dev
 
-# Run frontend
-cd ../frontend
-npm run dev
+**Run frontend**
+- cd ../frontend
+- npm run dev
 
 ## 🌐 Try it Live
 Experience the chat app in real-time!  
@@ -89,26 +89,26 @@ Click here to open the app: [Live Demo](https://chatapp-mern-3xqn.onrender.com/l
 
 ### 📌 Future Enhancements
 
-# ✅ Mobile responsiveness (currently in progress)
+- ✅ **Mobile responsiveness** (currently in progress)
 
-# ✅ Group chat support
+- ✅ **Group chat support**
 
-# ✅ File sharing (images, documents)
+- ✅ **File sharing** (images, documents)
 
-# ✅ Emoji & GIF support
+- ✅ **Emoji & GIF support**
 
-# ✅ Push notifications
+- ✅ **Push notifications**
 
-# ✅ Voice / Video call integration
+- ✅ **Voice / Video call integration**
 
-- 🌙 **Dark/Light mode support** (if enabled)
+- ✅ **Dark/Light mode support** (if enabled)
 
-- 🔔 **Instant notifications** for new messages
+- ✅ **Instant notifications** for new messages
 
 ### For any queries, feedback, or help regarding this project, feel free to reach out: 
 👤 Author
 
-Sidharth Singh Shrinet
-💼 [LinkedIn](https://www.linkedin.com/in/sidharth-singh-b3aaa623b)
+**Sidharth Singh Shrinet**
+- 💼 [LinkedIn](https://www.linkedin.com/in/sidharth-singh-b3aaa623b)
 
-🐙 [GitHub](https://github.com/SidharthSinghShrinet)
+- 🐙 [GitHub](https://github.com/SidharthSinghShrinet)
