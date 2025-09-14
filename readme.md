@@ -27,23 +27,24 @@ This project demonstrates how to build a modern chat system with **authenticatio
 ---
 
 ## 📂 Project Structure
-ChatApp/
-├── backend/ # Express + Node.js server
-│ ├── models/ # Mongoose schemas
-│ ├── routes/ # API routes (auth, messages, users)
-│ ├── controllers/ # Route logic
-│ ├── server.js # Entry point
-│ └── socket.js # Socket.io events
-│
-├── frontend/ # React client
-│ ├── src/
-│ │ ├── components/ # UI components
-│ │ ├── pages/ # Auth & Chat pages
-│ │ ├── context/ # State management
-│ │ └── App.js
-│ └── package.json
-│
-└── README.md
+
+📁 ChatApp/  
+├── 📁 backend/                # Express (app.js) + Node.js server
+│   ├── 📄 server.js           # Entry point  
+│   ├── 📄 socket.js           # Socket.io events  
+│   ├── 📁 models/             # Mongoose schemas  
+│   ├── 📁 routes/             # API routes (auth, messages, users)  
+│   └── 📁 controllers/        # Route logic  
+│  
+├── 📁 frontend/               # React client  
+│   ├── 📄 package.json  
+│   └── 📁 src/  
+│       ├── 📄 App.js  
+│       ├── 📁 components/     # UI components  
+│       ├── 📁 pages/          # Auth & Chat pages  
+│       └── 📁 context/        # State management  
+│  
+└── 📄 README.md  
 
 ---
 
