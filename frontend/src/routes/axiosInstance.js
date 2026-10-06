@@ -14,3 +14,16 @@ axiosInstance.interceptors.request.use((config) => {
 }, (error) => {
     return Promise.reject(error);
 });
+
+axiosInstance.interceptors.response.use(
+    (response) => response,
+    (error) => {
+        if (error?.response?.status === 401) {
+            localStorage.removeItem('token');
+            if (window.location.pathname !== '/login' && window.location.pathname !== '/signup') {
+                window.location.href = '/login';
+            }
+        }
+        return Promise.reject(error);
+    }
+);

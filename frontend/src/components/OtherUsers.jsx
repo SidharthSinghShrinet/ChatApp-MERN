@@ -7,9 +7,14 @@ import OtherUser from './OtherUser';
 const OtherUsers = () => {
     const dispatch = useDispatch();
     async function getOtherData() {
-        let response = await axiosInstance.get('/users/others');
-        // console.log(response.data.data);
-        dispatch(setAllOthersUser(response.data.data));
+        try {
+            let response = await axiosInstance.get('/users/others');
+            if (response?.data?.data) {
+                dispatch(setAllOthersUser(response.data.data));
+            }
+        } catch (error) {
+            console.log("Fetch users error:", error?.response?.data?.message || error?.message);
+        }
     };
     useEffect(()=>{
         getOtherData();
