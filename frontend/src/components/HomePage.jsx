@@ -13,12 +13,12 @@ const HomePage = () => {
       <div className="hidden sm:block absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-400/40 to-transparent pointer-events-none z-20" />
 
       {/* Sidebar: Full-width on mobile when no chat is selected, fixed column on tablet/desktop */}
-      <div className={`h-full ${isChatOpen ? 'hidden md:flex' : 'flex'} w-full md:w-80 lg:w-96 flex-shrink-0 flex-col`}>
+      <div className={`h-full ${isChatOpen ? 'hidden md:flex' : 'flex animate-mobile-fade-in'} w-full md:w-80 lg:w-96 flex-shrink-0 flex-col`}>
         <Sidebar />
       </div>
 
       {/* MessageContainer: Full-width on mobile when chat is open, flexible remaining width on tablet/desktop */}
-      <div className={`h-full ${isChatOpen ? 'flex' : 'hidden md:flex'} flex-1 flex-col min-w-0`}>
+      <div className={`h-full ${isChatOpen ? 'flex animate-mobile-slide-in' : 'hidden md:flex'} flex-1 flex-col min-w-0`}>
         <MessageContainer />
       </div>
     </div>

@@ -103,7 +103,7 @@ const SignupPage = () => {
                 onChange={handleChange}
                 placeholder="e.g. Alex Rivera"
                 autoComplete="name"
-                className="glass-input w-full pl-11 pr-4 py-2.5 rounded-xl text-sm font-medium"
+                className="glass-input w-full pl-11 pr-4 py-2.5 rounded-xl text-[16px] sm:text-sm font-medium"
               />
             </div>
           </div>
@@ -125,7 +125,7 @@ const SignupPage = () => {
                 onChange={handleChange}
                 placeholder="e.g. alex_rivera"
                 autoComplete="username"
-                className="glass-input w-full pl-11 pr-4 py-2.5 rounded-xl text-sm font-medium"
+                className="glass-input w-full pl-11 pr-4 py-2.5 rounded-xl text-[16px] sm:text-sm font-medium"
               />
             </div>
           </div>
@@ -147,7 +147,7 @@ const SignupPage = () => {
                 onChange={handleChange}
                 placeholder="••••••••••••"
                 autoComplete="new-password"
-                className="glass-input w-full pl-11 pr-11 py-2.5 rounded-xl text-sm font-medium"
+                className="glass-input w-full pl-11 pr-11 py-2.5 rounded-xl text-[16px] sm:text-sm font-medium"
               />
               <button
                 type="button"

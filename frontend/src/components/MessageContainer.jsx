@@ -67,13 +67,13 @@ const MessageContainer = () => {
         /* Active Chat State */
         <div className="flex-1 flex flex-col h-full min-w-0">
           {/* Active Chat Header */}
-          <div className="h-16 px-3 sm:px-5 border-b border-[var(--sidebar-border)] bg-[var(--sidebar-bg)] backdrop-blur-xl flex items-center justify-between flex-shrink-0 z-10 transition-colors duration-300">
+          <div className="h-14 sm:h-16 px-2.5 sm:px-5 border-b border-[var(--sidebar-border)] bg-[var(--sidebar-bg)] backdrop-blur-xl flex items-center justify-between flex-shrink-0 z-10 transition-colors duration-300">
             <div className="flex items-center gap-2 sm:gap-3 min-w-0">
               {/* Mobile Back Button */}
               <button
                 type="button"
                 onClick={() => dispatch(setSelectedUser([]))}
-                className="md:hidden p-2 rounded-xl text-[var(--text-heading)] hover:bg-slate-200/50 dark:hover:bg-white/10 transition-colors cursor-pointer flex-shrink-0 -ml-1"
+                className="md:hidden w-9 h-9 rounded-full flex items-center justify-center text-[var(--text-heading)] hover:bg-slate-200/50 dark:hover:bg-white/10 active:scale-90 active:bg-slate-300/60 dark:active:bg-white/20 transition-all cursor-pointer flex-shrink-0"
                 aria-label="Back to contacts list"
                 title="Back to contacts"
               >

@@ -73,7 +73,7 @@ const OtherUser = () => {
               borderColor: isSelected ? "var(--contact-item-active-border)" : "transparent",
               color: isSelected ? "var(--contact-item-active-text)" : undefined,
             }}
-            className={`w-full flex items-center gap-3 p-2.5 rounded-2xl cursor-pointer transition-all duration-150 relative border select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 active:scale-[0.99] ${
+            className={`w-full flex items-center gap-3 p-3 rounded-2xl cursor-pointer transition-all duration-150 relative border select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 active:scale-[0.98] active:bg-slate-200/50 dark:active:bg-white/10 ${
               isSelected
                 ? "shadow-sm"
                 : "hover:bg-[var(--contact-item-hover)] text-[var(--text-primary)] hover:text-[var(--text-heading)]"

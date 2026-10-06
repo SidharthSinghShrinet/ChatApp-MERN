@@ -10,7 +10,7 @@ const Messages = () => {
   useGetRealTimeMessages();
 
   return (
-    <div className='flex-1 overflow-y-auto px-4 sm:px-6 py-4 space-y-3 min-h-0'>
+    <div className='flex-1 overflow-y-auto px-3 sm:px-6 py-3 sm:py-4 space-y-3 min-h-0 momentum-scroll select-text'>
       <Message messages={messages || []} />
     </div>
   );

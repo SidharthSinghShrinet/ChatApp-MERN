@@ -95,7 +95,7 @@ const Sidebar = () => {
             id="search"
             aria-label="Search contacts"
             placeholder='Search here...'
-            className='glass-input w-full pl-10 pr-9 py-2 rounded-xl text-xs sm:text-sm font-medium'
+            className='glass-input w-full pl-10 pr-9 py-2 rounded-xl text-[16px] sm:text-sm font-medium'
           />
           {input && (
             <button
@@ -111,7 +111,7 @@ const Sidebar = () => {
       </div>
 
       {/* Contact List */}
-      <div className='flex-1 overflow-y-auto px-2 py-1 min-h-0'>
+      <div className='flex-1 overflow-y-auto px-2 py-1 min-h-0 momentum-scroll'>
         <OtherUsers />
       </div>
 

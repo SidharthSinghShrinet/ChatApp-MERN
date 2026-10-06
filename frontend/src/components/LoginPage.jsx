@@ -92,7 +92,7 @@ const LoginPage = () => {
                 onChange={handleChange}
                 placeholder="Enter your username"
                 autoComplete="username"
-                className="glass-input w-full pl-11 pr-4 py-3 rounded-xl text-sm font-medium"
+                className="glass-input w-full pl-11 pr-4 py-3 rounded-xl text-[16px] sm:text-sm font-medium"
               />
             </div>
           </div>
@@ -114,12 +114,12 @@ const LoginPage = () => {
                 onChange={handleChange}
                 placeholder="••••••••••••"
                 autoComplete="current-password"
-                className="glass-input w-full pl-11 pr-11 py-3 rounded-xl text-sm font-medium"
+                className="glass-input w-full pl-11 pr-11 py-3 rounded-xl text-[16px] sm:text-sm font-medium"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3.5 text-[var(--text-subtle)] hover:text-[var(--text-heading)] transition-colors"
+                className="absolute right-3.5 text-[var(--text-subtle)] hover:text-[var(--text-heading)] transition-colors p-1"
                 aria-label={showPassword ? "Hide password" : "Show password"}
               >
                 {showPassword ? <IoEyeOffOutline className="text-lg" /> : <IoEyeOutline className="text-lg" />}
@@ -131,7 +131,7 @@ const LoginPage = () => {
           <button
             type="submit"
             disabled={loading}
-            className="gradient-btn mt-2 w-full py-3.5 px-4 rounded-xl text-white font-semibold text-sm tracking-wide cursor-pointer flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+            className="gradient-btn mt-2 w-full py-3.5 px-4 rounded-xl text-white font-semibold text-sm tracking-wide cursor-pointer flex items-center justify-center gap-2 active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed"
           >
             {loading ? (
               <span className="inline-block w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
