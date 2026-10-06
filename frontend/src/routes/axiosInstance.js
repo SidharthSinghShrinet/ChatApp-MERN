@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { store, persistor } from '../redux/store';
+import { setAuthUser, setSelectedUser, setAllOthersUser } from '../redux/userSlice';
 
 export const axiosInstance = axios.create({
     baseURL: import.meta.env.VITE_BASE_URL,
@@ -20,8 +22,13 @@ axiosInstance.interceptors.response.use(
     (error) => {
         if (error?.response?.status === 401) {
             localStorage.removeItem('token');
-            if (window.location.pathname !== '/login' && window.location.pathname !== '/signup') {
-                window.location.href = '/login';
+            try {
+                store.dispatch(setAuthUser(null));
+                store.dispatch(setSelectedUser([]));
+                store.dispatch(setAllOthersUser([]));
+                persistor.purge();
+            } catch (err) {
+                console.error("Purge session error:", err);
             }
         }
         return Promise.reject(error);
