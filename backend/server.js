@@ -8,19 +8,30 @@ connectDB()
     const server = http.createServer(app);
 
     const allowedOrigins = [
+      "https://chat-app-mern-lime.vercel.app",
+      "https://chatapp-k5cy.onrender.com",
       "https://chatapp-mern-3xqn.onrender.com",
       "http://localhost:5173",
       "http://localhost:3000",
     ];
 
-    // Allow CLIENT_URL from env (e.g. Render frontend URL) without code changes
-    if (process.env.CLIENT_URL && !allowedOrigins.includes(process.env.CLIENT_URL)) {
-      allowedOrigins.push(process.env.CLIENT_URL);
-    }
+    const isAllowedOrigin = (origin) => {
+      if (!origin) return true;
+      if (allowedOrigins.includes(origin)) return true;
+      if (process.env.CLIENT_URL && origin === process.env.CLIENT_URL) return true;
+      if (/^https:\/\/chat-app-mern.*\.vercel\.app$/.test(origin)) return true;
+      return false;
+    };
 
     const io = new Server(server, {
       cors: {
-        origin: allowedOrigins,
+        origin: (origin, callback) => {
+          if (isAllowedOrigin(origin)) {
+            callback(null, true);
+          } else {
+            callback(null, false);
+          }
+        },
         methods: ['GET', 'POST'],
         credentials: true,
       },
