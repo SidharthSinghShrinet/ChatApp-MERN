@@ -26,6 +26,7 @@ const Sidebar = () => {
     } catch {
       // ignore socket close errors during logout
     }
+    localStorage.removeItem("token");
     dispatch(setAuthUser(null));
     dispatch(setSelectedUser([]));
     dispatch(setAllOthersUser([]));
