@@ -34,8 +34,14 @@ const loginUser = expressAsyncHandler(async (req, res, next) => {
         sameSite: isProd ? "none" : "lax",
         path: "/",
         maxAge: 1 * 60 * 60 * 1000
-    })
-    new ApiResponse(200, true, "User logged In Successfully", existingUser, token).send(res);
+    });
+    return res.status(200).json({
+        success: true,
+        message: "User logged In Successfully",
+        data: existingUser,
+        token: token,
+        meta: token
+    });
 })
 
 const logout = expressAsyncHandler(async (req, res, next) => {

@@ -34,8 +34,9 @@ const LoginPage = () => {
     try {
       let response = await axiosInstance.post("/users/login", user);
       if (response?.data?.success) {
-        if (response?.data?.token) {
-          localStorage.setItem("token", response.data.token);
+        const token = response?.data?.token || response?.data?.meta;
+        if (token) {
+          localStorage.setItem("token", token);
         }
         dispatch(setAuthUser(response.data.data));
         toast.success(response.data.message || "Logged in successfully!");

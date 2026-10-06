@@ -19,34 +19,31 @@ app.use(cookieParser());
 // app.use(cors(corsOption)); 
 
 
-const allowedOrigins = [
-  "https://chat-app-mern-lime.vercel.app",
-  "https://chatapp-k5cy.onrender.com",
-  "https://chatapp-mern-3xqn.onrender.com",
-  "http://localhost:5173",
-  "http://localhost:3000",
-];
+const clientUrls = process.env.CLIENT_URL
+  ? process.env.CLIENT_URL.split(',').map((url) => url.trim().replace(/\/$/, ''))
+  : [];
 
-const isAllowedOrigin = (origin) => {
-  if (!origin) return true;
-  if (allowedOrigins.includes(origin)) return true;
-  if (process.env.CLIENT_URL && origin === process.env.CLIENT_URL) return true;
-  if (/^https:\/\/chat-app-mern.*\.vercel\.app$/.test(origin)) return true;
-  return false;
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+    const normalizedOrigin = origin.replace(/\/$/, '');
+    if (
+      clientUrls.includes(normalizedOrigin) ||
+      process.env.NODE_ENV !== 'production' ||
+      normalizedOrigin.includes('localhost') ||
+      normalizedOrigin.includes('127.0.0.1')
+    ) {
+      return callback(null, true);
+    }
+    return callback(null, false);
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin'],
+  optionsSuccessStatus: 200,
 };
 
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      if (isAllowedOrigin(origin)) {
-        callback(null, true); // ✅ allow
-      } else {
-        callback(null, false); // ❌ block silently instead of throwing
-      }
-    },
-    credentials: true, // allow cookies/tokens
-  })
-);
+app.use(cors(corsOptions));
 
 
 app.use(express.urlencoded({extended:true}));

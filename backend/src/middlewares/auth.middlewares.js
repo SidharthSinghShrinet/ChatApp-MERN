@@ -4,7 +4,14 @@ const userCollection = require('../models/user.models');
 const jwt = require('jsonwebtoken');
 
 const authenticate = expressAsyncHandler(async (req, res, next) => {
-    const token = req.cookies?.token || req.headers?.authorization?.replace("Bearer ", "");
+    let token = req.cookies?.token;
+    if (!token && req.headers?.authorization) {
+        token = req.headers.authorization.replace(/^Bearer\s+/i, "").trim();
+    }
+    if (!token && req.headers['x-auth-token']) {
+        token = req.headers['x-auth-token'];
+    }
+
     if (!token) {
         throw new ErrorHandler("Please Login!", 401);
     }
