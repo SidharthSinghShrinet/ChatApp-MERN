@@ -109,7 +109,7 @@ const App = () => {
   }, [authUser]);
 
   return (
-    <div className='min-h-[100dvh] h-screen w-full flex items-center justify-center p-0 sm:p-3 md:p-6 relative overflow-hidden'>
+    <div className='min-h-[100dvh] w-full flex flex-col items-center justify-center p-0 sm:p-3 md:p-6 relative overflow-x-hidden overflow-y-auto'>
       {/* Ambient glow mesh */}
       <div className="absolute top-10 left-10 w-72 sm:w-96 h-72 sm:h-96 bg-indigo-600/15 rounded-full blur-3xl pointer-events-none -z-10" />
       <div className="absolute bottom-10 right-10 w-72 sm:w-96 h-72 sm:h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none -z-10" />

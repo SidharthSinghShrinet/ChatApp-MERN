@@ -50,7 +50,7 @@ const LoginPage = () => {
   }
 
   return (
-    <div className="w-full max-w-[420px] mx-auto z-10 relative px-4 sm:px-0">
+    <div className="w-full max-w-[420px] mx-auto z-10 relative px-4 sm:px-0 my-auto py-6 sm:py-8">
       <div className="glass-panel-elevated rounded-3xl p-6 sm:p-8 md:p-10 border border-[var(--card-border-elevated)] shadow-2xl relative overflow-hidden transition-colors duration-300">
         {/* Subtle top glow bar */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-48 h-[2px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent" />

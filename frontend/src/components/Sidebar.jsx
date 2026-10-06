@@ -57,10 +57,10 @@ const Sidebar = () => {
   return (
     <aside
       aria-label="Chat sidebar"
-      className='w-full h-full flex flex-col md:border-r border-[var(--sidebar-border)] bg-[var(--sidebar-bg)] backdrop-blur-xl relative transition-colors duration-300'
+      className='w-full h-full flex flex-col md:border-r border-[var(--sidebar-border)] bg-[var(--sidebar-bg)] backdrop-blur-xl relative transition-colors duration-300 min-h-0 overflow-hidden'
     >
       {/* Top Header / App Brand & Theme Toggle */}
-      <div className='p-3 sm:p-4 pb-3 border-b border-[var(--sidebar-border)] flex items-center justify-between gap-2'>
+      <div className='p-3 sm:p-4 pb-3 border-b border-[var(--sidebar-border)] flex items-center justify-between gap-2 flex-shrink-0'>
         <div className='flex items-center gap-2.5 min-w-0'>
           <div className='w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-cyan-400 flex items-center justify-center shadow-md shadow-indigo-500/20 flex-shrink-0'>
             <IoChatbubbleEllipsesSharp className='text-white text-lg' />
@@ -82,7 +82,7 @@ const Sidebar = () => {
       </div>
 
       {/* Search Input Bar */}
-      <div className='p-3 sm:p-3.5 pb-2'>
+      <div className='p-3 sm:p-3.5 pb-2 flex-shrink-0'>
         <form onSubmit={(e) => e.preventDefault()} className='relative flex items-center'>
           <span className='absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--text-subtle)] pointer-events-none text-base'>
             <IoSearchOutline />
@@ -116,7 +116,7 @@ const Sidebar = () => {
       </div>
 
       {/* Bottom Logout Section */}
-      <div className='p-3 border-t border-[var(--sidebar-border)] bg-[var(--card-bg)] flex items-center justify-between transition-colors duration-300'>
+      <div className='p-3 border-t border-[var(--sidebar-border)] bg-[var(--card-bg)] flex items-center justify-between transition-colors duration-300 flex-shrink-0'>
         <div className='flex items-center gap-2.5 min-w-0'>
           <Avatar
             src={authUser?.profilePhoto}
