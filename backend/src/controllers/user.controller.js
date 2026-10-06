@@ -28,17 +28,25 @@ const loginUser = expressAsyncHandler(async(req,res,next)=>{
     if(!isMatch) throw new ErrorHandler("Invalid Credientials",400);
     let token = generateJWTToken(existingUser._id);
     // console.log(token);
+    const isProd = process.env.NODE_ENV === "production";
     res.cookie("token",token,{
         httpOnly:true,
-        secure:true,
-        sameSite:"none",
+        secure:isProd,
+        sameSite:isProd ? "none" : "lax",
+        path:"/",
         maxAge:1*60*60*1000
     })
     new ApiResponse(200,true,"User logged In Successfully",existingUser,token).send(res);
 })
 
 const logout = expressAsyncHandler(async(req,res,next)=>{
-    res.clearCookie("token");
+    const isProd = process.env.NODE_ENV === "production";
+    res.clearCookie("token",{
+        httpOnly:true,
+        secure:isProd,
+        sameSite:isProd ? "none" : "lax",
+        path:"/"
+    });
     new ApiResponse(200,true,"User logged Out Successfully").send(res);
 })
 

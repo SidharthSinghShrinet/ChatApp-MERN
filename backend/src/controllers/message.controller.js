@@ -36,7 +36,7 @@ const sendMessage = expressAsyncHandler(async (req, res, next) => {
   const userSocketMap = req.app.get('userSocketMap');
 
   //It will return the SocketId from the userSocketMap Object
-  const receiverSocketId = userSocketMap[receiverId];
+  const receiverSocketId = userSocketMap[String(receiverId)];
   if (receiverSocketId) {
     io.to(receiverSocketId).emit('newMessage', newMessage);
   }

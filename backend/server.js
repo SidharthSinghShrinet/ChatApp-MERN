@@ -7,9 +7,20 @@ connectDB()
   .then(() => {
     const server = http.createServer(app);
 
+    const allowedOrigins = [
+      "https://chatapp-mern-3xqn.onrender.com",
+      "http://localhost:5173",
+      "http://localhost:3000",
+    ];
+
+    // Allow CLIENT_URL from env (e.g. Render frontend URL) without code changes
+    if (process.env.CLIENT_URL && !allowedOrigins.includes(process.env.CLIENT_URL)) {
+      allowedOrigins.push(process.env.CLIENT_URL);
+    }
+
     const io = new Server(server, {
       cors: {
-        origin: [process.env.CLIENT_URL],
+        origin: allowedOrigins,
         methods: ['GET', 'POST'],
         credentials: true,
       },

@@ -1,48 +1,64 @@
 import { IoSend } from "react-icons/io5";
-import React, {useState } from "react";
+import React, { useState } from "react";
 import { axiosInstance } from "../routes/axiosInstance";
 import { useDispatch, useSelector } from "react-redux";
-import { setMessages } from "../redux/messageSlice";
+import { addMessage } from "../redux/messageSlice";
 
 const SendInput = () => {
-  const [message,setMessage] = useState("");
-  // console.log(message);
+  const [message, setMessage] = useState("");
+  const [isSending, setIsSending] = useState(false);
   const dispatch = useDispatch();
-  let selectedUser = useSelector((state)=>state.user.selectedUser);
-  let messages = useSelector((state)=>state.message.messages);
-  async function handleSubmit(e){
+  const selectedUser = useSelector((state) => state.user.selectedUser);
+
+  async function handleSubmit(e) {
     e.preventDefault();
+    if (!message.trim() || !selectedUser?._id || isSending) return;
+
+    const trimmedMsg = message.trim();
+    setIsSending(true);
     try {
-      let response = await axiosInstance.post(`/messages/send/${selectedUser?._id}`,{message},{
-        headers:{
-          "Content-Type":"application/json"
+      let response = await axiosInstance.post(
+        `/messages/send/${selectedUser._id}`,
+        { message: trimmedMsg },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
-      });
-      // console.log(response);
-      // alert(message);
-      dispatch(setMessages([...messages,response.data.message]));
+      );
+      if (response?.data?.message) {
+        dispatch(addMessage(response.data.message));
+      }
       setMessage("");
     } catch (error) {
-      console.log(error);
+      console.log("Send message error:", error);
+    } finally {
+      setIsSending(false);
     }
   }
+
   return (
-    <form onSubmit={handleSubmit} className="px-4">
-      <div className="relative">
+    <div className="p-2.5 sm:p-4 border-t border-[var(--sidebar-border)] bg-[var(--sidebar-bg)] backdrop-blur-xl flex-shrink-0 transition-colors duration-300">
+      <form onSubmit={handleSubmit} className="relative flex items-center">
         <input
           type="text"
-          name=""
-          id=""
           value={message}
-          onChange={(e)=>setMessage(e.target.value)}
-          placeholder="Send Message..."
-          className="w-full bg-black p-2 text-lg block pr-9 text-gray-300 tracking-wide outline-none rounded-lg"
+          onChange={(e) => setMessage(e.target.value)}
+          placeholder="Type a message..."
+          aria-label="Type your message"
+          className="glass-input w-full pl-4 pr-14 py-2.5 sm:py-3 rounded-full text-xs sm:text-sm font-medium focus-visible:ring-2 focus-visible:ring-cyan-400"
         />
-        <button type="submit" className="absolute inset-y-0 end-3 items-center block">
-          <IoSend />
+        <button
+          type="submit"
+          disabled={!message.trim() || isSending}
+          aria-label="Send message"
+          className="absolute right-1.5 sm:right-2 w-8 sm:w-9 h-8 sm:h-9 rounded-full gradient-btn flex items-center justify-center text-white text-xs sm:text-sm shadow-md cursor-pointer disabled:opacity-40 disabled:pointer-events-none transition-transform active:scale-95 focus-visible:ring-2 focus-visible:ring-cyan-400"
+          title="Send Message"
+        >
+          <IoSend className="translate-x-[1px]" />
         </button>
-      </div>
-    </form>
+      </form>
+    </div>
   );
 };
 

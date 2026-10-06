@@ -20,8 +20,15 @@ app.use(cookieParser());
 
 
 const allowedOrigins = [
-  "https://chatapp-mern-3xqn.onrender.com"
+  "https://chatapp-mern-3xqn.onrender.com",
+  "http://localhost:5173",
+  "http://localhost:3000",
 ];
+
+// Allow CLIENT_URL from env (e.g. Render frontend URL) without code changes
+if (process.env.CLIENT_URL && !allowedOrigins.includes(process.env.CLIENT_URL)) {
+  allowedOrigins.push(process.env.CLIENT_URL);
+}
 
 app.use(
   cors({

@@ -1,14 +1,28 @@
-import React from 'react'
-import Sidebar from './Sidebar'
-import MessageContainer from './MessageContainer'
+import React from 'react';
+import Sidebar from './Sidebar';
+import MessageContainer from './MessageContainer';
+import { useSelector } from 'react-redux';
 
 const HomePage = () => {
-  return (
-    <div className='flex sm:h-[450px] md:h-[550px] rounded-lg overflow-hidden backdrop-blur-sm'>
-      <Sidebar/>
-      <MessageContainer/>
-    </div>
-  )
-} 
+  const selectedUser = useSelector((state) => state.user.selectedUser);
+  const isChatOpen = Boolean(selectedUser && selectedUser._id);
 
-export default HomePage
+  return (
+    <div className='w-full max-w-[1280px] h-[100dvh] sm:h-[88vh] sm:max-h-[860px] glass-panel-elevated rounded-none sm:rounded-3xl border-0 sm:border border-[var(--card-border-elevated)] shadow-2xl flex overflow-hidden relative z-10 transition-colors duration-300'>
+      {/* Subtle top edge specular highlight (hidden on edge-to-edge mobile) */}
+      <div className="hidden sm:block absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-400/40 to-transparent pointer-events-none z-20" />
+
+      {/* Sidebar: Full-width on mobile when no chat is selected, fixed column on tablet/desktop */}
+      <div className={`h-full ${isChatOpen ? 'hidden md:flex' : 'flex'} w-full md:w-80 lg:w-96 flex-shrink-0 flex-col`}>
+        <Sidebar />
+      </div>
+
+      {/* MessageContainer: Full-width on mobile when chat is open, flexible remaining width on tablet/desktop */}
+      <div className={`h-full ${isChatOpen ? 'flex' : 'hidden md:flex'} flex-1 flex-col min-w-0`}>
+        <MessageContainer />
+      </div>
+    </div>
+  );
+};
+
+export default HomePage;

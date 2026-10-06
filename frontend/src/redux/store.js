@@ -3,8 +3,11 @@ import userReducer from './userSlice';
 import messageReducer from './messageSlice';
 import socketReducer from './socketSlice';
 
+import themeReducer from './themeSlice';
+
 import {
     persistReducer,
+    persistStore,
     FLUSH,
     REHYDRATE,
     PAUSE,
@@ -22,7 +25,8 @@ const persistConfig = {
 const rootReducer = combineReducers({
     user: userReducer,
     message: messageReducer,
-    socket: socketReducer
+    socket: socketReducer,
+    theme: themeReducer
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
@@ -37,3 +41,5 @@ export const store = configureStore({
             },
         }),
 })
+
+export const persistor = persistStore(store)
