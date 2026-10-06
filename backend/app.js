@@ -50,11 +50,19 @@ app.use(express.json());
 app.use('/api/v1/users',userRoutes);
 app.use('/api/v1/messages',messageRoutes);
 
-app.use(express.static(path.join(_dirname, "frontend", "dist")));
+const fs = require('fs');
+const frontendDist = path.join(_dirname, "frontend", "dist");
 
-app.get(/^(?!\/api\/).*/, (req, res) => {
-  res.sendFile(path.resolve(_dirname, "frontend", "dist", "index.html"));
-});
+if (fs.existsSync(frontendDist)) {
+  app.use(express.static(frontendDist));
+  app.get(/^(?!\/api\/).*/, (req, res) => {
+    res.sendFile(path.resolve(frontendDist, "index.html"));
+  });
+} else {
+  app.get('/', (req, res) => {
+    res.status(200).send("PulseChat API Server is running");
+  });
+}
 
 app.use(error);
 
