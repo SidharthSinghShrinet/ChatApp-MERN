@@ -1,6 +1,6 @@
 import { useContext, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { addMessage } from '../redux/messageSlice';
+import { addMessage, incrementUnread } from '../redux/messageSlice';
 import { SocketContext } from '../App';
 
 const useGetRealTimeMessages = () => {
@@ -15,16 +15,20 @@ const useGetRealTimeMessages = () => {
   useEffect(()=>{
     if(!socketObj) return;
     const handler = (newMessage)=>{
-      // Only append messages belonging to the currently open conversation,
-      // otherwise a message from user A pops into user C's chat window.
-      if(!selectedId || !myId) return;
+      if(!myId) return;
       const sender = String(newMessage?.senderId || "");
       const receiver = String(newMessage?.receiverId || "");
+
       const isCurrentConversation =
-        (sender === String(selectedId) && receiver === String(myId)) ||
-        (sender === String(myId) && receiver === String(selectedId));
+        selectedId &&
+        ((sender === String(selectedId) && receiver === String(myId)) ||
+        (sender === String(myId) && receiver === String(selectedId)));
+
       if(isCurrentConversation){
         dispatch(addMessage(newMessage));
+      } else if (sender !== String(myId)) {
+        // Message arrived from someone else while user is on another screen
+        dispatch(incrementUnread(sender));
       }
     };
     socketObj.on("newMessage", handler);

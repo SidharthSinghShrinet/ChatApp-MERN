@@ -43,6 +43,27 @@ connectDB()
 
       io.emit('getOnlineUsers', Object.keys(userSocketMap));
 
+      // ✅ Real-time live typing indicators
+      socket.on('typing', ({ receiverId }) => {
+        if (!receiverId) return;
+        const receiverSocketId = userSocketMap[String(receiverId)];
+        if (receiverSocketId) {
+          io.to(receiverSocketId).emit('typing', {
+            senderId: String(userId),
+          });
+        }
+      });
+
+      socket.on('stopTyping', ({ receiverId }) => {
+        if (!receiverId) return;
+        const receiverSocketId = userSocketMap[String(receiverId)];
+        if (receiverSocketId) {
+          io.to(receiverSocketId).emit('stopTyping', {
+            senderId: String(userId),
+          });
+        }
+      });
+
       socket.on('disconnect', () => {
         console.log('❌ User disconnected:', socket.id);
         delete userSocketMap[userId];

@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedUser } from "../redux/userSlice";
+import { clearUnread } from "../redux/messageSlice";
 import { IoSearchOutline } from "react-icons/io5";
 import Avatar from "@mui/material/Avatar";
 
@@ -9,10 +10,14 @@ const OtherUser = () => {
   const allOtherUsers = useSelector((state) => state.user.allOthersUser);
   const onlineUsers = useSelector((state) => state.user.onlineUsers) || [];
   const selectedUser = useSelector((state) => state.user.selectedUser);
+  const unreadCounts = useSelector((state) => state.message?.unreadCounts) || {};
   const input = useSelector((state) => state.user.input);
 
   function selectedUserHandler(user) {
     dispatch(setSelectedUser(user));
+    if (user?._id) {
+      dispatch(clearUnread(user._id));
+    }
   }
 
   const displayedUsers = (allOtherUsers || []).filter((user) => {
@@ -115,11 +120,18 @@ const OtherUser = () => {
                 <p className="text-sm font-semibold truncate leading-tight">
                   {user?.fullname || "User"}
                 </p>
-                {isOnline && (
-                  <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-medium ml-1 flex-shrink-0">
-                    online
-                  </span>
-                )}
+                <div className="flex items-center gap-1.5 flex-shrink-0 ml-1">
+                  {isOnline && (
+                    <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-medium">
+                      online
+                    </span>
+                  )}
+                  {unreadCounts[user?._id] > 0 && (
+                    <span className="min-w-[19px] h-[19px] px-1.5 rounded-full bg-gradient-to-r from-indigo-500 to-cyan-500 text-white text-[10px] font-extrabold flex items-center justify-center shadow-sm shadow-cyan-500/30">
+                      {unreadCounts[user._id]}
+                    </span>
+                  )}
+                </div>
               </div>
               <p className="text-xs text-[var(--text-subtle)] truncate mt-0.5">
                 @{user?.username || "contact"}

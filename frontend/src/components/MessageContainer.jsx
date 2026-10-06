@@ -1,16 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import SendInput from "./SendInput";
 import Messages from "./Messages";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedUser } from "../redux/userSlice";
 import { IoChatbubblesOutline, IoShieldCheckmarkOutline, IoArrowBack } from "react-icons/io5";
 import Avatar from "@mui/material/Avatar";
+import { SocketContext } from "../App";
 
 const MessageContainer = () => {
   const selectedUser = useSelector((state) => state.user.selectedUser);
   const onlineUsers = useSelector((state) => state.user.onlineUsers) || [];
   const authUser = useSelector((state) => state.user.authUser);
   const dispatch = useDispatch();
+  const socketObj = useContext(SocketContext);
+  const [isContactTyping, setIsContactTyping] = useState(false);
 
   useEffect(() => {
     return () => {
@@ -30,6 +33,32 @@ const MessageContainer = () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [selectedUser, dispatch]);
+
+  // Live typing socket listeners
+  useEffect(() => {
+    setIsContactTyping(false);
+    if (!socketObj || !selectedUser?._id) return;
+
+    const handleTyping = ({ senderId }) => {
+      if (String(senderId) === String(selectedUser._id)) {
+        setIsContactTyping(true);
+      }
+    };
+
+    const handleStopTyping = ({ senderId }) => {
+      if (String(senderId) === String(selectedUser._id)) {
+        setIsContactTyping(false);
+      }
+    };
+
+    socketObj.on("typing", handleTyping);
+    socketObj.on("stopTyping", handleStopTyping);
+
+    return () => {
+      socketObj.off("typing", handleTyping);
+      socketObj.off("stopTyping", handleStopTyping);
+    };
+  }, [socketObj, selectedUser?._id]);
 
   const isUserSelected = selectedUser && selectedUser._id;
   const isSelectedUserOnline = isUserSelected && onlineUsers.includes(selectedUser._id);
@@ -107,22 +136,31 @@ const MessageContainer = () => {
                 <h3 className="text-sm sm:text-base font-bold text-[var(--text-heading)] truncate">
                   {selectedUser.fullname}
                 </h3>
-                <p className="text-[11px] font-medium flex items-center gap-1.5">
-                  <span
-                    className={`inline-block w-1.5 h-1.5 rounded-full ${
-                      isSelectedUserOnline ? "bg-emerald-500 animate-pulse" : "bg-slate-400"
-                    }`}
-                  />
-                  <span className={isSelectedUserOnline ? "text-emerald-600 dark:text-emerald-400" : "text-[var(--text-subtle)]"}>
-                    {isSelectedUserOnline ? "Active now" : "Offline"}
-                  </span>
-                </p>
+                <div className="text-[11px] font-medium flex items-center gap-1.5 min-h-[16px]">
+                  {isContactTyping ? (
+                    <span className="text-cyan-500 dark:text-cyan-400 font-semibold flex items-center gap-1.5 animate-pulse">
+                      <span className="inline-block w-1.5 h-1.5 rounded-full bg-cyan-400" />
+                      typing...
+                    </span>
+                  ) : (
+                    <>
+                      <span
+                        className={`inline-block w-1.5 h-1.5 rounded-full ${
+                          isSelectedUserOnline ? "bg-emerald-500 animate-pulse" : "bg-slate-400"
+                        }`}
+                      />
+                      <span className={isSelectedUserOnline ? "text-emerald-600 dark:text-emerald-400" : "text-[var(--text-subtle)]"}>
+                        {isSelectedUserOnline ? "Active now" : "Offline"}
+                      </span>
+                    </>
+                  )}
+                </div>
               </div>
             </div>
           </div>
 
           {/* Messages Timeline */}
-          <Messages />
+          <Messages isTyping={isContactTyping} />
 
           {/* Message Input Bar */}
           <SendInput />

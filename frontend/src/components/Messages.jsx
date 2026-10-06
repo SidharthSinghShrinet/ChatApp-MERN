@@ -4,14 +4,14 @@ import useGetMessages from '../hooks/useGetMessages';
 import { useSelector } from 'react-redux';
 import useGetRealTimeMessages from '../hooks/useGetRealTimeMessages';
 
-const Messages = () => {
+const Messages = ({ isTyping }) => {
   const messages = useSelector((state) => state.message.messages);
   useGetMessages();
   useGetRealTimeMessages();
 
   return (
     <div className='flex-1 overflow-y-auto px-3 sm:px-6 py-3 sm:py-4 space-y-3 min-h-0 momentum-scroll select-text'>
-      <Message messages={messages || []} />
+      <Message messages={messages || []} isTyping={isTyping} />
     </div>
   );
 };

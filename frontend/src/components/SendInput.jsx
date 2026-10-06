@@ -1,18 +1,63 @@
 import { IoSend } from "react-icons/io5";
-import React, { useState } from "react";
+import React, { useState, useContext, useRef, useEffect } from "react";
 import { axiosInstance } from "../routes/axiosInstance";
 import { useDispatch, useSelector } from "react-redux";
 import { addMessage } from "../redux/messageSlice";
+import { SocketContext } from "../App";
 
 const SendInput = () => {
   const [message, setMessage] = useState("");
   const [isSending, setIsSending] = useState(false);
   const dispatch = useDispatch();
   const selectedUser = useSelector((state) => state.user.selectedUser);
+  const socketObj = useContext(SocketContext);
+
+  const typingTimeoutRef = useRef(null);
+  const isTypingRef = useRef(false);
+
+  const emitStopTyping = () => {
+    if (isTypingRef.current && socketObj && selectedUser?._id) {
+      socketObj.emit("stopTyping", { receiverId: selectedUser._id });
+      isTypingRef.current = false;
+    }
+  };
+
+  const handleInputChange = (e) => {
+    const val = e.target.value;
+    setMessage(val);
+
+    if (!socketObj || !selectedUser?._id) return;
+
+    if (val.trim()) {
+      if (!isTypingRef.current) {
+        isTypingRef.current = true;
+        socketObj.emit("typing", { receiverId: selectedUser._id });
+      }
+
+      if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
+      typingTimeoutRef.current = setTimeout(() => {
+        emitStopTyping();
+      }, 2000);
+    } else {
+      if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
+      emitStopTyping();
+    }
+  };
+
+  // Clean up typing indicator if switching users or unmounting
+  useEffect(() => {
+    return () => {
+      if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
+      emitStopTyping();
+    };
+  }, [selectedUser?._id]);
 
   async function handleSubmit(e) {
     e.preventDefault();
     if (!message.trim() || !selectedUser?._id || isSending) return;
+
+    if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
+    emitStopTyping();
 
     const trimmedMsg = message.trim();
     setIsSending(true);
@@ -43,7 +88,7 @@ const SendInput = () => {
         <input
           type="text"
           value={message}
-          onChange={(e) => setMessage(e.target.value)}
+          onChange={handleInputChange}
           placeholder="Type a message..."
           aria-label="Type your message"
           className="glass-input w-full pl-4 pr-14 py-2.5 sm:py-3 rounded-full text-[16px] sm:text-sm font-medium focus-visible:ring-2 focus-visible:ring-cyan-400"
