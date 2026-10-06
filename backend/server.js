@@ -60,11 +60,15 @@ connectDB()
     app.set('io', io);
     app.set('userSocketMap', userSocketMap);
 
-    server.listen(process.env.PORT || 9000, () => {
-      console.log(`🚀 Server running at port ${process.env.PORT || 9000}`);
+    const PORT = process.env.PORT || 9000;
+    server.listen(PORT, '0.0.0.0', () => {
+      console.log(`🚀 Server running on 0.0.0.0:${PORT}`);
     });
   })
   .catch((err) => {
-    console.error('❌ Error connecting DB:', err);
+    console.error('❌ Error connecting DB:', err?.message || err);
+    if (!process.env.MONGODB_ATLAS_URL) {
+      console.error('⚠️ MONGODB_ATLAS_URL environment variable is missing in production!');
+    }
     process.exit(1);
   });
